@@ -1,18 +1,30 @@
 import { StyleSheet, Text, View,Image,TouchableOpacity, Pressable } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+import { useEffect } from 'react';
 const OrderScreen = () => {
+    const route = useRoute();
+    const param = route.params?.param;
     const navigation = useNavigation();
-
+    const [required, setRequired] = useState(require('/assets/vs_blue.png'));
+    useEffect(() => {
+      if (param) {
+        setRequired(param);
+      }
+    }, [param]);
     const selectColor = () => {
-        navigation.navigate('SelectColorScreen');
-      };
+      navigation.navigate('SelectColorScreen');
+    };
+    const order = () =>{
+      alert("Đặt hàng thành công")
+    }
     return (
 
         <View style= {styles.container}>
         <Image
           style={styles.image}
-          source={require("/assets/vs_blue.png")}
+          source={required}
         />        
         <Text style={styles.title}>Điện thoại Vsmart Joy 3 -Hàng Chính hãng</Text>
         <View style={{flexDirection:'row',marginLeft:'-55%'}}>
@@ -49,7 +61,7 @@ const OrderScreen = () => {
             <Text style={{marginTop:'-38px',marginLeft:'90%',fontSize:'35px'}}>{'>'}</Text>
 
         </TouchableOpacity>
-        <TouchableOpacity  style={{backgroundColor:'red',width:'95%',height:'40px',borderRadius:'10px',marginTop:'15%'}}>
+        <TouchableOpacity onPress={order} style={{backgroundColor:'red',width:'95%',height:'40px',borderRadius:'10px',marginTop:'15%'}}>
             <Text style={{color:'white',textAlign:'center',justifyContent:'center',paddingTop:'5px',fontWeight:'bold',fontSize:'20px'}}>CHỌN MUA</Text>
         </TouchableOpacity>
         </View>
@@ -65,9 +77,10 @@ const styles = StyleSheet.create({
     image: {
         resizeMode: 'contain',
         width: '360px',
-        height:'350px',
+        height:'320px',
         marginTop:'-5%'},
     title:{
+        marginTop:'3%',
         fontWeight:'bold',
         fontSize:'17px',
         marginLeft:'-5%',
